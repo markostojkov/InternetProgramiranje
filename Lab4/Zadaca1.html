@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Exercise 1</title>
+        <style rel="stylesheet" type="text/css">
+            div.wrapper {
+                width: 25%;
+            }
+
+            div.row {
+                margin-bottom: 5px;
+                display: flex;
+                justify-content: flex-start;
+                padding: .5em;
+            }
+
+            div.row > label {
+                flex: 0.7;
+                padding: .3em 0 .3em 0;
+            }
+
+            div.right {
+                justify-content: flex-end;
+            }
+
+            div.row > label, div.row > button, div.row select {
+                cursor: pointer;
+            }
+
+            div.row > input, div.row > select {
+                flex: 2;
+            }
+
+            div.row > input, div.row > button {
+                padding: .3em;
+            }
+
+            table, th, td {
+                border: 1px solid #000000;
+                border-collapse: separate;
+                text-align: center;
+            }
+        </style>
+        <script rel="script" type="application/javascript">
+            let students = [];
+
+            class Student {
+                constructor( fname, lname, index, subject, grade ) {
+                    this.fname = fname;
+                    this.lname = lname;
+                    this.index = index;
+                    this.subject = subject;
+                    this.grade = grade;
+                }
+            }
+
+            function addStudent() {
+                let fname = document.querySelector( 'div.row > input#fname' );
+                let lname = document.querySelector( 'div.row > input#lname' );
+                let index = document.querySelector( 'div.row > input#index' );
+                let subject = document.querySelector( 'div.row > input#subject' );
+                let grades = document.querySelector( 'div.row > select#grade' );
+
+                if ( fname.value === "" ||
+                    lname.value === "" ||
+                    index.value === "" ||
+                    subject.value === "" ||
+                    grades === null ) {
+                    alert( "Сите полиња се задолжителни !" );
+                    return void 0;
+                }
+
+                if ( isNaN( parseInt( index.value ) ) ) {
+                    alert( "Индексот мора да биде број!" );
+                    return void 0;
+                }
+
+                let grade = grades.options[ grades.selectedIndex ].innerHTML;
+                // let grade = grades.options[ grades.selectedIndex ].value;
+
+                let student = new Student( fname.value, lname.value, index.value, subject.value, grade );
+                students.push( student );
+
+                display();
+
+                fname.value = lname.value = index.value = subject.value = "";
+                grades.selectedIndex = 0;
+            }
+
+            function display() {
+                let table = document.querySelector( 'table#students' );
+                let tbody = document.querySelector( 'table#students > tbody' );
+
+                tbody.innerHTML = "";
+
+                for ( let student of students ) {
+                    let row = tbody.insertRow();
+                    row.insertCell().innerHTML = student.fname;
+                    row.insertCell().innerHTML = student.lname;
+                    row.insertCell().innerHTML = student.index;
+                    row.insertCell().innerHTML = student.subject;
+                    row.insertCell().innerHTML = student.grade;
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="row">
+                <label for="fname">Име:</label>
+                <input id="fname" type="text" name="fname">
+            </div>
+            <div class="row">
+                <label for="lname">Презиме:</label>
+                <input id="lname" type="text" name="lname">
+            </div>
+            <div class="row">
+                <label for="index">Индекс:</label>
+                <input id="index" type="text" name="index">
+            </div>
+            <div class="row">
+                <label for="subject">Предмет:</label>
+                <input id="subject" type="text" name="subject">
+            </div>
+            <div class="row">
+                <label for="grade">Оцена:</label>
+                <select id="grade">
+                    <option value="5">5 (пет)</option>
+                    <option value="6">6 (шест)</option>
+                    <option value="7">7 (седум)</option>
+                    <option value="8">8 (осум)</option>
+                    <option value="9">9 (девет)</option>
+                    <option value="10">10 (десет)</option>
+                </select>
+            </div>
+            <div class="row right">
+                <button id="btn-add" type="button" name="btn-add" onclick="addStudent()">Внеси</button>
+            </div>
+        </div>
+
+        <table id="students">
+            <thead>
+                <tr>
+                    <th>Име</th>
+                    <th>Презиме</th>
+                    <th>Индекс</th>
+                    <th>Предмет</th>
+                    <th>Оцена</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </body>
+</html>

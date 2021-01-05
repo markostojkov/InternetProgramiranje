@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Exercise 3</title>
+        <style rel="stylesheet" type="text/css">
+            div.wrapper {
+                width: 20%;
+            }
+
+            div.row, div.row_special {
+                margin-bottom: 5px;
+                display: flex;
+                justify-content: flex-start;
+                padding: .5em;
+            }
+
+            div.row > label {
+                flex: 0.5;
+                padding: .3em 0 .3em 0;
+            }
+
+            div.right {
+                justify-content: flex-end;
+            }
+
+            div.row > label, div.row > button {
+                cursor: pointer;
+            }
+
+            div.row > input {
+                flex: 2;
+            }
+
+            div.row > input, div.row > button {
+                padding: .3em;
+            }
+        </style>
+        <script rel="script" type="application/javascript">
+            function change() {
+                let value = document.querySelector( 'div.row input#value' ).value;
+                let types = document.querySelectorAll( 'div.row_special input[type="radio"]' );
+
+                if ( value === "" ) {
+                    alert( "Сите полиња се задолжителни!" );
+                    return void 0;
+                }
+
+                let type;
+                types.forEach( t => {
+                    if ( t.checked ) {
+                        type = t.value;
+                        return void 0;
+                    }
+                } );
+
+                if ( type === 'color' ) {
+                    document.body.style.backgroundColor = value;
+                    document.body.style.backgroundImage = "";
+                }
+                else if ( type === 'image' ) {
+                    document.body.style.backgroundImage = `url(${value})`;
+                    document.body.style.backgroundRepeat = "no-repeat";
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Промена на позадина</h1>
+        <div class="wrapper">
+            <div class="row_special right">
+                <label><input type="radio" name="choice" value="color" checked>Color</label>
+                <label><input type="radio" name="choice" value="image">Image</label>
+            </div>
+            <div class="row">
+                <label for="value">Value:</label>
+                <input id="value" type="text" name="value">
+            </div>
+
+            <div class="row right">
+                <button id="show" type="button" name="show" onclick="change()">Промени</button>
+            </div>
+        </div>
+    </body>
+</html>

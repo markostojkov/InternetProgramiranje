@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Exercise 2</title>
+        <style rel="stylesheet" type="text/css">
+            div.wrapper {
+                width: 20%;
+            }
+
+            div.row {
+                margin-bottom: 5px;
+                display: flex;
+                justify-content: flex-start;
+                padding: .5em;
+            }
+
+            div.row > label {
+                flex: 0.5;
+                padding: .3em 0 .3em 0;
+            }
+
+            div.right {
+                justify-content: flex-end;
+            }
+
+            div.row > label, div.row > button, div.row select, div#result > label {
+                cursor: pointer;
+            }
+
+            div.row > input, div.row > select {
+                flex: 2;
+            }
+
+            div.row > input, div.row > button {
+                padding: .3em;
+            }
+        </style>
+        <script rel="script" type="application/javascript">
+            function show() {
+                let result = document.querySelector( 'div#result' );
+                let items_text = document.querySelector( 'div.row input#items' ).value;
+                let types = document.querySelector( 'div.row select#type' );
+
+                if ( items_text === "" || types.options === null ) {
+                    alert( "Сите полиња се задолжителни" );
+                    return void 0;
+                }
+
+                let type = types.options[ types.selectedIndex ].value;
+                let items = items_text.split( /\s*,\s*/ );
+
+                result.innerHTML = "";
+                for ( let item of items ) {
+                    let label = document.createElement( 'label' );
+                    let newElement = document.createElement( 'input' );
+                    newElement.setAttribute( 'type', type );
+                    if ( type === 'radio' )
+                        newElement.setAttribute( 'name', 'items' );
+                    label.appendChild( newElement );
+                    label.appendChild( document.createTextNode( item ) );
+                    result.appendChild( label );
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="row">
+                <label for="items">Items:</label>
+                <input id="items" type="text" name="items">
+            </div>
+            <div class="row">
+                <label for="type">Type:</label>
+                <select id="type">
+                    <option value="radio">Radio button</option>
+                    <option value="checkbox">Check box</option>
+                </select>
+            </div>
+
+            <div class="row right">
+                <button id="show" type="button" name="show" onclick="show()">Прикажи</button>
+            </div>
+        </div>
+
+        <div id="result"></div>
+    </body>
+</html>
